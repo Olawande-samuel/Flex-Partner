@@ -2,10 +2,16 @@ import DisplayCard from "./DisplayCard";
 
 const Overview = () => {
 	return (
-		<div>
-			<DisplayCard />
-			<DisplayCard />
-			<DisplayCard />
+		<div className="flex flex-wrap gap-5 lg:gap-8">
+			<div className="min-w-52 flex-1">
+				<DisplayCard />
+			</div>
+			<div className="min-w-52 flex-1">
+				<DisplayCard />
+			</div>
+			<div className="min-w-52 flex-1">
+				<DisplayCard />
+			</div>
 		</div>
 	);
 };

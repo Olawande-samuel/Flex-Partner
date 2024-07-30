@@ -4,12 +4,12 @@ import Sidebar from "./Sidebar";
 
 const DashboardLayout = () => {
 	return (
-		<div className="flex relative h-screen overflow-y-hidden">
-			<article className="basis-64 hidden lg:block grow-0 shrink-0">
+		<div className="relative flex h-screen overflow-y-hidden border border-red-900">
+			<article className="hidden shrink-0 grow-0 basis-64 lg:block">
 				<Sidebar />
 			</article>
 			{/* <MobileSidebar /> */}
-			<main className="flex-1 flex flex-col overflow-y-auto py-10 px-8 lg:px-11  bg-bgLight">
+			<main className="flex flex-1 flex-col overflow-y-auto bg-bgLight px-8 py-10 lg:px-11">
 				<DashboardHeader />
 				<section className=" flex-1">
 					<Outlet />

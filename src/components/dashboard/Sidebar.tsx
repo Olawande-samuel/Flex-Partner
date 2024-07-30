@@ -5,11 +5,11 @@ import SidebarItem from "./SidebarItem";
 
 const Sidebar = () => {
 	return (
-		<div className="bg-white h-full flex flex-col border-r border-[#E6E6E6]">
-			<section className="h-[110px] pt-[26.5px] px-8 mb-20">
+		<div className="flex h-full flex-col border-r border-accentGray bg-white">
+			<section className="mb-20 h-[110px] px-8 pt-[26.5px]">
 				<img src={logo} alt="flexFlow logo" height={70} />
 			</section>
-			<section className=" flex-1 max-h-[75vh] overflow-y-auto">
+			<section className=" max-h-[75vh] flex-1 overflow-y-auto">
 				<ul className="space-y-2">
 					{sidebarList.map((item) => (
 						<SidebarItem {...item} key={item.id} />
