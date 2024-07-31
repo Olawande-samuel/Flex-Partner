@@ -13,20 +13,20 @@ export const sidebarList: ISidebarItem[] = [
 	},
 	{
 		id: 2,
-		name: "Block Alert",
-		path: "/dashboard/block-alert",
+		name: "Earnings",
+		path: "/dashboard/earnings",
 		LinkIcon: MoneyBag,
 	},
 	{
 		id: 3,
-		name: "Block Schedule",
-		path: "/dashboard/block-schedule",
+		name: "Settings",
+		path: "/dashboard/settings",
 		LinkIcon: Settings,
 	},
 	{
 		id: 4,
-		name: "Active Blocks",
-		path: "/dashboard/active-blocks",
+		name: "Help Desk",
+		path: "/dashboard/help-desk",
 		LinkIcon: Help,
 	},
 ];

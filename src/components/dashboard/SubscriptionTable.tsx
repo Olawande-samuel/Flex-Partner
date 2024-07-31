@@ -8,6 +8,7 @@ import Table from "./Table";
 import StatusBadge from "./StatusBadge";
 import { IReferral } from "@/lib/types";
 const { TabPane } = Tabs;
+
 const data = [
 	{
 		reference: "#Q2T43RS3",
@@ -74,13 +75,11 @@ const SubscriptionTable = () => {
 			label: "All",
 			key: "1",
 			count: 70,
-			children: () => <p>Table 1</p>,
 		},
 		{
 			label: "Subscribed",
 			key: "2",
 			count: 80,
-			children: () => <p>Table 2</p>,
 		},
 	];
 

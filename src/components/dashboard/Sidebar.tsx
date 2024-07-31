@@ -1,6 +1,7 @@
 import { sidebarList } from "@/data";
 import logo from "@/assets/icons/Logo.svg";
 import SidebarItem from "./SidebarItem";
+import SignOut from "./SignOut";
 // import SignOut from "./SignOut";
 
 const Sidebar = () => {
@@ -9,14 +10,16 @@ const Sidebar = () => {
 			<section className="mb-20 h-[110px] px-8 pt-[26.5px]">
 				<img src={logo} alt="flexFlow logo" height={70} />
 			</section>
-			<section className=" max-h-[75vh] flex-1 overflow-y-auto">
+			<section className=" max-h-[40vh] flex-1 overflow-y-auto">
 				<ul className="space-y-2">
 					{sidebarList.map((item) => (
 						<SidebarItem {...item} key={item.id} />
 					))}
 				</ul>
 			</section>
-			<section className="justify-self-end	">{/* <SignOut /> */}</section>
+			<section className="">
+				<SignOut />
+			</section>
 		</div>
 	);
 };

@@ -10,11 +10,11 @@ const SidebarItem = ({ name, path, LinkIcon }: ISidebarItem) => {
 				to={path}
 				className={
 					isMatch
-						? "text-accent py-3 block relative"
-						: "text-grayish py-3 block"
+						? "relative block py-3 text-accent"
+						: "block py-3 text-grayish"
 				}
 			>
-				<li className="ps-8 mx-auto flex items-center gap-3">
+				<li className="mx-auto flex items-center gap-3 ps-8">
 					<img src={LinkIcon} alt="icon" />
 					{name}
 				</li>

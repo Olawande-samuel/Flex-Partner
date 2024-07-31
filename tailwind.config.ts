@@ -30,6 +30,8 @@ module.exports = {
 				accentGreen: "rgba(36, 209, 100, 1)",
 				lightAccentGreen: "rgba(233, 250, 239, 1)",
 				blackish: "#202046",
+				blackish2: "#111827",
+				subtext: "#64748B",
 				bgLight: "rgba(248, 249, 253, 1)",
 				accentBlue: "rgba(37, 99, 235, 1)",
 				lightAccentBlue: "rgba(233, 239, 253, 1)",

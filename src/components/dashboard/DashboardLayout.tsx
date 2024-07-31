@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
 import DashboardHeader from "./DashboardHeader";
 import Sidebar from "./Sidebar";
+import authRoute from "@/hoc/authRoute";
+import MobileSidebar from "./MobileSidebar";
 
 const DashboardLayout = () => {
 	return (
@@ -8,7 +10,7 @@ const DashboardLayout = () => {
 			<article className="hidden shrink-0 grow-0 basis-64 lg:block">
 				<Sidebar />
 			</article>
-			{/* <MobileSidebar /> */}
+			<MobileSidebar />
 			<main className="flex flex-1 flex-col overflow-y-auto bg-bgLight px-8 py-10 lg:px-11">
 				<DashboardHeader />
 				<section className=" flex-1">
@@ -18,4 +20,5 @@ const DashboardLayout = () => {
 		</div>
 	);
 };
-export default DashboardLayout;
+const ProtectedComponent = authRoute(DashboardLayout);
+export default ProtectedComponent;

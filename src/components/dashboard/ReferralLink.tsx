@@ -1,5 +1,4 @@
 import shareArrow from "@/assets/icons/share-arrow.svg";
-import { Button } from "../ui/button";
 import {
 	Card,
 	CardContent,
@@ -9,6 +8,7 @@ import {
 } from "../ui/card";
 import { Label } from "../ui/label";
 import LinkShare from "./LinkShare";
+import StyledButton from "./StyledButton";
 
 const ReferralLink = () => {
 	return (
@@ -28,9 +28,7 @@ const ReferralLink = () => {
 						flexflow.tech/ref=3000
 					</div>
 				</div>
-				<Button className="h-auto w-full rounded-xl bg-accentLight py-4 text-sm font-bold text-accent">
-					Copy Referral Link
-				</Button>
+				<StyledButton title="Copy Referral Link" />
 			</CardContent>
 			<CardFooter>
 				<div>

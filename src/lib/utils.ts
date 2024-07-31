@@ -20,9 +20,11 @@ export function generateStatus(status: string) {
 		// 	return "text-accentGreen bg-lightAccentGreen";
 		// case "inactive":
 		// 	return "text-accentPink bg-lightAccentPink";
-		// case "successful":
-		// 	return "text-accentGreen bg-lightAccentGreen";
+		case "successful":
+			return "text-accentGreen bg-lightAccentGreen";
 		case "not-subscribed":
+			return "text-accentPink bg-lightAccentPink";
+		case "failed":
 			return "text-accentPink bg-lightAccentPink";
 		default:
 			return "";
