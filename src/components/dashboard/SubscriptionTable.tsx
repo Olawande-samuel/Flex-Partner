@@ -1,3 +1,4 @@
+import moment from "moment";
 import { ConfigProvider, Tabs } from "antd";
 import { Card, CardContent } from "../ui/card";
 import { useState } from "react";
@@ -7,24 +8,12 @@ import DatePicker from "./DatePicker";
 import Table from "./Table";
 import StatusBadge from "./StatusBadge";
 import { IReferral } from "@/lib/types";
+import { DateRange } from "react-day-picker";
+import { subDays } from "date-fns";
+import API from "@/lib/API";
+import useDataQuery from "@/hooks/useDataQuery";
 const { TabPane } = Tabs;
 
-const data = [
-	{
-		reference: "#Q2T43RS3",
-		name: "Leatrice Handler",
-		date: "22 Oct, 2020, 11:40 PM",
-		commission: "$399.00",
-		status: "Subscribed",
-	},
-	{
-		reference: "#Q2T43RS3",
-		name: "Marielle Wigington",
-		date: "22 Oct, 2020, 11:40 PM",
-		commission: "$399.00",
-		status: "Not-Subscribed",
-	},
-];
 const columns = [
 	{
 		name: "Reference",
@@ -64,8 +53,13 @@ const columns = [
 ];
 
 const SubscriptionTable = () => {
-	// const [dates, setDates] = useState<[string, string]>(["", ""]);
+	const REQ = new API();
+	const [date, setDate] = useState<DateRange | undefined>({
+		from: subDays(new Date(), 20),
+		to: new Date(),
+	});
 	const [selectedTab, setSelectedTab] = useState("1");
+
 	const handleTabChange = (key: string) => {
 		setSelectedTab(key);
 	};
@@ -83,12 +77,24 @@ const SubscriptionTable = () => {
 		},
 	];
 
+	const startToString = date?.from ? date.from.toLocaleString() : "";
+	const EndToString = date?.to ? date?.to.toLocaleString() : "";
+
+	const { data, isLoading } = useDataQuery({
+		queryKey: ["get my referrals", startToString, EndToString],
+		queryFn: () =>
+			REQ.getReferrals({
+				end_date: moment(date?.to).format("YYYY-MM-DD"),
+				start_date: moment(date?.from).format("YYYY-MM-DD"),
+			}),
+	});
+	console.log(data);
 	return (
 		<section>
 			<Card>
 				<CardContent className="relative">
 					<div className="relative right-4 top-3 z-10 mb-4 [@media(width>=580px)]:absolute">
-						<DatePicker />
+						<DatePicker date={date} setDate={setDate} />
 					</div>
 					<ConfigProvider
 						theme={{
@@ -135,13 +141,14 @@ const SubscriptionTable = () => {
 									}
 								>
 									<Table
+										isLoading={isLoading}
 										columns={columns}
 										data={
 											tab.key === "2"
-												? data.filter(
+												? data?.data?.filter(
 														(item) => item.status === "Not-Subscribed",
 													)
-												: data
+												: data?.data
 										}
 									/>
 								</TabPane>

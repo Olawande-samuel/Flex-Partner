@@ -44,10 +44,10 @@ const SignupSteps = ({ children, step }: Props) => {
 									title: "STEP 2",
 									description: "Verify your email",
 								},
-								{
-									title: "STEP 3",
-									description: "Create your password",
-								},
+								// {
+								// 	title: "STEP 3",
+								// 	description: "Create your password",
+								// },
 							]}
 						/>
 					</ConfigProvider>

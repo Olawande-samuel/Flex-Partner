@@ -1,6 +1,7 @@
 import ActiveButton from "../ActiveButton";
 import logo from "@/assets/icons/home-logo.svg";
 import Container from "../Container";
+import { Link } from "react-router-dom";
 const Hero = () => {
 	return (
 		<section className="min-h-screen w-full  bg-[#0F172A] sm:h-screen">
@@ -21,10 +22,12 @@ const Hero = () => {
 							better blocks and earn more!
 						</p>
 						<div>
-							<ActiveButton
-								title="Sign Up Now"
-								className="rounded-none px-12 text-xl"
-							/>
+							<Link to="/sign-up">
+								<ActiveButton
+									title="Sign Up Now"
+									className="rounded-none px-12 text-xl"
+								/>
+							</Link>
 						</div>
 					</div>
 				</div>

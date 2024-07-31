@@ -1,13 +1,16 @@
 // import useDataMutation from "@/hooks/useDataMutation";
 // import useLocalStorage from "@/hooks/useLocalStorage";
 // import API from "@/lib/API";
+import useDataMutation from "@/hooks/useDataMutation";
+import API from "@/lib/API";
+import useUserStore from "@/store/user-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Lock, Mail } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { z } from "zod";
+import ActiveButton from "../ActiveButton";
 import { IconInput } from "../IconInput";
 import {
 	Form,
@@ -17,8 +20,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../ui/form";
-import useUserStore from "@/store/user-store";
-import ActiveButton from "../ActiveButton";
 
 const formSchema = z.object({
 	email: z.string().email({ message: "Invalid email address" }),
@@ -26,8 +27,7 @@ const formSchema = z.object({
 });
 
 const LoginForm = ({ text }: { text?: string }) => {
-	// const REQ = new API();
-	// const { removeItem } = useLocalStorage();
+	const REQ = new API();
 	const navigate = useNavigate();
 	const { setUser } = useUserStore();
 
@@ -38,33 +38,20 @@ const LoginForm = ({ text }: { text?: string }) => {
 			password: "",
 		},
 	});
-	// const { isPending, mutate, response } = useDataMutation({
-	// 	mutationFn: REQ.login,
-	// 	mutationKey: ["login"],
-	// });
+	const { isPending, mutate, response } = useDataMutation({
+		mutationFn: REQ.login,
+		mutationKey: ["login"],
+	});
 
-	// useEffect(() => {
-	// 	if (response?.token) {
-	// 		if (response?.status?.email_verification) {
-	// 			removeItem("register");
-	// 			setUser(response);
-	// 			toast.success("Login successfully");
-
-	// 			if (response?.status?.amazon_flex === false) {
-	// 				navigate("/dashboard/block-alert", { replace: true });
-	// 				return;
-	// 			}
-	// 			navigate("/dashboard", { replace: true });
-	// 			return;
-	// 		}
-	// 		toast.error("Complete your email verification to login");
-	// 	}
-
-	// }, [response]);
+	useEffect(() => {
+		if (response?.token) {
+			setUser(response);
+			navigate("/dashboard", { replace: true });
+		}
+	}, [response]);
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values);
-		// mutate(values);
+		mutate(values);
 	}
 
 	return (
@@ -119,7 +106,7 @@ const LoginForm = ({ text }: { text?: string }) => {
 						type="submit"
 						title={text ? text : "Login"}
 						className="w-full rounded-xl"
-						// loading={isPending}
+						loading={isPending}
 					/>
 				</div>
 			</form>

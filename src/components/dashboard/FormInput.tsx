@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { IconInput } from "../IconInput";
 import { PhoneInput } from "../PhoneInput";
 import {
 	FormControl,
@@ -7,7 +8,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../ui/form";
-import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 // import CopyButton from "./CopyButton";
 
@@ -25,6 +25,7 @@ interface Props<T> {
 	showCopy?: boolean;
 	isPhoneNumber?: boolean;
 	description?: string;
+	showIcon?: boolean;
 }
 
 const FormInput = <T extends { control: any }>({
@@ -37,6 +38,7 @@ const FormInput = <T extends { control: any }>({
 	wrapperClassName,
 	disabled = false,
 	isPhoneNumber,
+	showIcon = false,
 }: Props<T>) => {
 	return (
 		<div className={cn("relative", wrapperClassName)}>
@@ -63,12 +65,13 @@ const FormInput = <T extends { control: any }>({
 										disabled={disabled}
 									/>
 								) : (
-									<Input
+									<IconInput
 										type={type}
 										className={cn(" h-12", inputClassName)}
 										placeholder={placeholder}
 										{...field}
 										disabled={disabled}
+										showIcon={showIcon}
 									/>
 								)}
 								{/* {showCopy && <CopyButton value={field.value} />} */}

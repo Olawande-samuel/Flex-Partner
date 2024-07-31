@@ -15,6 +15,7 @@ const useDataMutation = ({ mutationKey, mutationFn }: Props) => {
 		mutationKey,
 		mutationFn,
 		onSuccess: (res: any) => {
+			console.log(res);
 			if (res?.status >= 200 && res?.status < 300) {
 				setResponse(res.data);
 				if (res?.message) {
@@ -23,6 +24,7 @@ const useDataMutation = ({ mutationKey, mutationFn }: Props) => {
 			}
 		},
 		onError: (error: unknown) => {
+			console.log(error);
 			if (axios.isAxiosError(error)) {
 				if (error.response) {
 					if (typeof error.response.data === "string") {

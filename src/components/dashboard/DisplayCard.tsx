@@ -4,6 +4,7 @@ import StyledButton from "./StyledButton";
 import { cn } from "@/lib/utils";
 
 interface Props {
+	value: string | number;
 	reversed?: boolean;
 	img: string;
 	title: string;
@@ -16,6 +17,7 @@ const DisplayCard = ({
 	img,
 	title,
 	showButton,
+	value,
 	onButtonClick,
 }: Props) => {
 	return (
@@ -23,7 +25,9 @@ const DisplayCard = ({
 			<div className={cn("flex flex-col", reversed && "flex-col-reverse")}>
 				<CardHeader className="mb-8">
 					<div className="flex items-center justify-between">
-						<span className="text-2xl font-semibold text-blackish">3,589</span>
+						<span className="text-2xl font-semibold text-blackish">
+							{value}
+						</span>
 						<img src={img ?? testImage} />
 					</div>
 				</CardHeader>

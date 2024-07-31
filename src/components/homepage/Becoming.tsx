@@ -41,7 +41,10 @@ const Becoming = () => {
 								earnings.
 							</li>
 						</ul>
-						<Link to="/" className="rounded-sm bg-accent px-6 py-4 text-white">
+						<Link
+							to="/sign-up"
+							className="rounded-sm bg-accent px-6 py-4 text-white"
+						>
 							Get Started
 						</Link>
 					</div>

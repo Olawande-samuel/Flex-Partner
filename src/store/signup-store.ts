@@ -2,10 +2,12 @@ import { IAuthData } from "@/lib/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Store = { state: IAuthData };
+type State = Omit<IAuthData, "password" | "user_name">;
+
+type Store = { state: State };
 
 interface StoreAction {
-	update: (data: { [key in keyof IAuthData]: string }) => void;
+	update: (data: { [key in keyof State]: string }) => void;
 }
 
 type StoreState = Store & StoreAction;
@@ -15,10 +17,10 @@ const useSignupStore = create<StoreState>()(
 		(set, get) => ({
 			state: {
 				email: "",
-				password: "",
-				user_name: "",
-				phone: "",
-				referral_code: "",
+				// password: "",
+				// user_name: "",
+				// phone: "",
+				// referral_code: "",
 			},
 			update: (data) => set(() => ({ state: { ...get().state, ...data } })),
 		}),

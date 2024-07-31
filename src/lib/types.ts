@@ -37,7 +37,7 @@ export interface IUser {
 export interface IAuthData {
 	email: string;
 	password?: string;
-	phone: string;
 	user_name: string;
-	referral_code?: string;
+	// phone: string;
+	// referral_code?: string;
 }

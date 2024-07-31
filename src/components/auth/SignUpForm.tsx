@@ -1,16 +1,15 @@
-// import useDataMutation from "@/hooks/useDataMutation";
-// import API from "@/lib/API";
+import useDataMutation from "@/hooks/useDataMutation";
+import API from "@/lib/API";
 import useSignupStepsStore from "@/store/signup-steps-store";
-import useSignupStore from "@/store/signup-store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Mail, Ticket, User } from "lucide-react";
+import { Lock, Mail, User } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { isValidPhoneNumber } from "react-phone-number-input";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { z } from "zod";
+import ActiveButton from "../ActiveButton";
 import { IconInput } from "../IconInput";
-import { PhoneInput } from "../PhoneInput";
 import { Checkbox } from "../ui/checkbox";
 import {
 	Form,
@@ -20,86 +19,75 @@ import {
 	FormLabel,
 	FormMessage,
 } from "../ui/form";
-import { toast } from "sonner";
-import ActiveButton from "../ActiveButton";
-import useLocalStorage from "@/hooks/useLocalStorage";
-import useDataMutation from "@/hooks/useDataMutation";
-import API from "@/lib/API";
+import useSignupStore from "@/store/signup-store";
 // import useLocalStorage from "@/hooks/useLocalStorage";
 
-const formSchema = z.object({
-	user_name: z
-		.string()
-		.min(3, { message: "Username should be a minimum length of 3 characters" })
-		.trim(),
-	email: z.string().email({ message: "Invalid email address" }).trim(),
-	phone: z
-		.string()
-		.trim()
-		.refine((val) => isValidPhoneNumber(val), {
-			message: "Invalid phone number",
-		}),
-	terms: z.boolean(),
-	referral_code: z.string().optional(),
-});
+const formSchema = z
+	.object({
+		user_name: z
+			.string()
+			.min(3, {
+				message: "Username should be a minimum length of 3 characters",
+			})
+			.trim(),
+		email: z.string().email({ message: "Invalid email address" }).trim(),
+		password: z
+			.string()
+			.trim()
+			.regex(/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/, {
+				message: "Password must be a minimum of 8 alpha numeric characters.",
+			})
+			.trim(),
+		confirm_password: z.string().trim(),
+		// phone: z
+		// 	.string()
+		// 	.trim()
+		// 	.refine((val) => isValidPhoneNumber(val), {
+		// 		message: "Invalid phone number",
+		// 	}),
+		terms: z.boolean(),
+		referral_code: z.string().optional(),
+	})
+	.refine((data) => data.password === data.confirm_password, {
+		message: "Passwords don't match",
+		path: ["confirm_password"],
+	});
 
 const SignUpForm = () => {
 	const REQ = new API();
-	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const { updateStep } = useSignupStepsStore();
-	const { update, state } = useSignupStore();
-	const { getItem } = useLocalStorage();
-
-	const isEmailAlreadyVerified = getItem("verifiedEmail");
-	const referral_code = searchParams.get("ref");
+	const { update } = useSignupStore();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			email: "",
-			phone: "",
+			password: "",
 			referral_code: "",
 		},
 	});
 
 	const { isPending, response, mutate } = useDataMutation({
-		mutationFn: REQ.tempsignup,
+		mutationFn: REQ.signup,
 		mutationKey: ["signup"],
 	});
-	useEffect(() => {
-		if (isEmailAlreadyVerified) {
-			form.reset(state);
-		}
-	}, [state, isEmailAlreadyVerified]);
 
 	useEffect(() => {
-		if (referral_code) {
-			form.reset({ referral_code });
-		}
-	}, [referral_code]);
-
-	useEffect(() => {
-		if (response?.success) {
+		if (response?.token) {
 			toast.success("Success!");
-			if (isEmailAlreadyVerified === form.getValues().email) {
-				updateStep(2);
-				navigate("/create-password", { replace: true });
-				return;
-			}
-			updateStep();
+			updateStep(1);
 			navigate("/verify-email", { replace: true });
 		}
-	}, [response?.success]);
+	}, [response]);
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		update(values);
+		update({ email: values.email });
 		const payload = {
 			email: values.email,
-			phone: values.phone,
+			password: values.password,
 			user_name: values.user_name,
 		};
-		console.log(payload);
 		mutate(payload);
 	}
 
@@ -156,6 +144,46 @@ const SignUpForm = () => {
 					)}
 				/>
 				<FormField
+					name="password"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<IconInput
+									{...field}
+									type="password"
+									Icon={Lock}
+									showIcon
+									className="rounded-2xl py-6"
+									placeholder="Enter new password"
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					name="confirm_password"
+					control={form.control}
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Confirm Password</FormLabel>
+							<FormControl>
+								<IconInput
+									{...field}
+									type="password"
+									Icon={Lock}
+									showIcon
+									placeholder="Confirm Password"
+									className="rounded-2xl py-6"
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				{/* <FormField
 					name="phone"
 					control={form.control}
 					render={({ field }) => (
@@ -190,7 +218,7 @@ const SignUpForm = () => {
 							</FormControl>
 						</FormItem>
 					)}
-				/>
+				/> */}
 				<div className="pt-2">
 					<FormField
 						control={form.control}
@@ -227,7 +255,7 @@ const SignUpForm = () => {
 						type="submit"
 						title="Sign Up"
 						className="w-full rounded-xl"
-						// loading={isPending}
+						loading={isPending}
 					/>
 					<p className="mt-3 text-center text-xs text-grayish">
 						By signing up, you have opted in to receive SMS and service may

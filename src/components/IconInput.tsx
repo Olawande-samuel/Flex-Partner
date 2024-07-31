@@ -21,7 +21,8 @@ const IconInput = React.forwardRef<HTMLInputElement, InputProps>(
 						type === "password" ? (showPassword ? "text" : "password") : type
 					}
 					className={cn(
-						"flex h-10 w-full rounded-md border border-slate-200 bg-white px-3 ps-10 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300",
+						"flex h-10 w-full rounded-md border border-slate-200 bg-white px-3  py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-slate-300",
+						showIcon && "ps-10",
 						className,
 					)}
 					ref={ref}
@@ -46,9 +47,9 @@ const IconInput = React.forwardRef<HTMLInputElement, InputProps>(
 						onClick={() => setShowPassword((prev) => !prev)}
 					>
 						{showPassword ? (
-							<EyeIcon className="h-4 w-4" aria-hidden="true" />
+							<EyeIcon className="size-4" aria-hidden="true" />
 						) : (
-							<EyeOffIcon className="h-4 w-4" aria-hidden="true" />
+							<EyeOffIcon className="size-4" aria-hidden="true" />
 						)}
 						<span className="sr-only">
 							{showPassword ? "Hide password" : "Show password"}

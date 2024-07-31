@@ -22,7 +22,7 @@ authInstance.interceptors.request.use(
 	(config) => {
 		const user = JSON.parse(localStorage.getItem("user") as string);
 		if (user) {
-			config.headers.Authorization = "Token " + user.state.state.token;
+			config.headers.Authorization = "Token " + user.state.user.token;
 		}
 		return config;
 	},

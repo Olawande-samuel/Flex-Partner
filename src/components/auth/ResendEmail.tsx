@@ -78,7 +78,7 @@ const ResendEmail = () => {
 			) : (
 				<Button
 					type="button"
-					className="h-6 py-1 text-accent"
+					className="h-6 py-1 text-accent bg-transparent"
 					onClick={onClick}
 				>
 					Resend Email

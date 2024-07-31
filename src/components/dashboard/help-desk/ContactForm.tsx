@@ -15,6 +15,8 @@ import {
 import { Input } from "../../ui/input";
 import { Textarea } from "../../ui/textarea";
 import ActiveButton from "@/components/ActiveButton";
+import API from "@/lib/API";
+import useDataMutation from "@/hooks/useDataMutation";
 
 const formSchema = z.object({
 	first_name: z.string(),
@@ -25,7 +27,7 @@ const formSchema = z.object({
 });
 
 const ContactForm = () => {
-	// const REQ = new API();
+	const REQ = new API();
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -38,22 +40,21 @@ const ContactForm = () => {
 		},
 	});
 
-	// const { mutate, isPending } = useDataMutation({
-	// 	mutationFn: REQ.addContact,
-	// 	mutationKey: ["create contact"],
-	// });
+	const { mutate, isPending } = useDataMutation({
+		mutationFn: REQ.contactUs,
+		mutationKey: ["contact us"],
+	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		try {
-			console.log(values);
-			// mutate(values, {
-			// 	onSuccess(data) {
-			// 		if (data?.data) {
-			// 			toast.success(data?.data?.success);
-			// 			form.reset();
-			// 		}
-			// 	},
-			// });
+			mutate(values, {
+				onSuccess(data) {
+					if (data?.data) {
+						toast.success(data?.data?.success);
+						form.reset();
+					}
+				},
+			});
 		} catch (error) {
 			toast.error("Error occured");
 		}
@@ -154,7 +155,7 @@ const ContactForm = () => {
 						type="submit"
 						title="Send Message"
 						className="mt-4 h-14 w-full rounded-xl bg-accent text-lg text-white"
-						// loading={isPending}
+						loading={isPending}
 					/>
 				</div>
 			</form>
